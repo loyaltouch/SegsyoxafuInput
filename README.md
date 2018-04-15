@@ -1,2 +1,2 @@
 # SegsyoxafuInput
-SegsyoxafuでInputMethodっぽい動き体験するシステム
+SegsyoxafuでInputMethodっぽい動きを体験するシステム
