@@ -6,33 +6,34 @@ const SegsyoxafuDict = {
 };
 
 $(()=>{
-  setup_input("");
+  reflesh_list("");
   $("#input").keyup(()=>{
-    const input_tail = $("#input").val().match("[a-z]+$");
-    if(input_tail){
-      setup_input(input_tail);
-    }else{
-      setup_input("");
-    }
+    reflesh_list($("#input").val());
   });
 });
 
-function setup_input(filter_text){
+function reflesh_list(input_text){
+  let filtered_list = {};
+  let left_input = "";
+  let right_input = "";
+  if(input_text == ""){
+    filtered_list = filter_list(SegsyoxafuDict, ".");
+  }else{
+    filtered_list = filter_list(SegsyoxafuDict, "^" + input_text + "$");
+  }
   let list_text = "";
-  let list_count = 0;
-  let last_item = "";
-  for(let key in SegsyoxafuDict){
-    if(filter_text == "" || key.match("^" + filter_text)){
-      list_text += `<tr><td>${key}</td><td>${SegsyoxafuDict[key]}</td></tr>`;
-      last_item = SegsyoxafuDict[key];
-      list_count++;
-      if(list_count > 10){
-        break;
-      }
-    }
+  for(let key in filtered_list){
+    list_text += `<tr><td>${key}</td><td>${SegsyoxafuDict[key]}</td></tr>`;
   }
   $("#list").html(list_text);
-  if(list_count == 1){
-    $("#input").val(last_item);
+}
+
+function filter_list(list, regexp){
+  let result = {};
+  for(let key in list){
+    if(key.match(regexp)){
+      result[key] = list[key];
+    }
   }
+  return result;
 }
